@@ -22,6 +22,28 @@
       "price": 21
     }
   ],
+  "slides": [
+    {
+      "img": "img/slider/pepper.jpg",
+      "alt": "pepper",
+      "id" : 1
+    },
+    {
+      "img": "img/slider/food-12.jpg",
+      "alt": "food",
+      "id" : 2
+    },
+    {
+      "img": "img/slider/olive-oil.jpg",
+      "alt": "oil",
+      "id" : 3
+    },
+    {
+      "img": "img/slider/paprika.jpg",
+      "alt": "paprika",
+      "id" : 4
+    }
+  ],
   "requests": [
     {
       "name": "Дамир",

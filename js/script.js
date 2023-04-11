@@ -197,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         const res = await fetch(url);
 
         if(!res.ok){
-            throw new Error(`Could not fethc ${url}, status: ${res.status}`);
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
         }
         //Возвраащем Promise.
         return await res.json();
@@ -320,5 +320,92 @@ window.addEventListener('DOMContentLoaded', () =>{
     fetch('http://localhost:3000/menu').
         then(data => data.json()).//Получаем оттуда json данные
         then(res => console.log(res));
+
+    //Slider
+
+    
+
+    const offerSlider = document.querySelector('.offer__slider'),
+        btnNext = offerSlider.querySelector('.offer__slider-next'),
+        btnPrev = offerSlider.querySelector('.offer__slider-prev'),
+        offetSliderWrapper = offerSlider.querySelector('.offer__slider-wrapper'),
+        idCurr = offerSlider.querySelector('#current');
+
+    let curr = 0,
+        total = 0;
+
+    let sliders = [];
+
+    getResources('http://localhost:3000/slides').
+        then(data => {
+            data.forEach(({img, alt, id}) => {
+                const slide = new Slide(img, alt, id, '.offer__slider-wrapper', 'offer__slide')
+                sliders.push(slide);
+            })
+        }).
+        then(() => {
+            curr = 0,
+            total = sliders.length;
+            showCurrentSlide(curr);
+            btnNext.addEventListener('click', changeCurrent);
+            btnPrev.addEventListener('click', changeCurrent);
+        })
+
+    class Slide{
+        constructor(src, alt, id, parentSelector, ...classes){
+            this.src = src;
+            this.alt = alt;
+            this.id = id;
+            this.classes = classes;
+            this.parent = document.querySelector(parentSelector);
+        }
+
+        render() {
+            this.parent.innerHTML = '';
+            const element = document.createElement('div');
+            if (this.classes.length === 0){
+                element.classList.add('offer_slide');
+            } else {
+                this.classes.forEach(className => element.classList.add(className));
+            }
+            element.innerHTML = `
+                <img src=${this.src} alt=${this.alt}}>
+            `;
+            this.parent.append(element);
+
+        }
+    }
+
+    const showCurrentSlide = function(currNumb) {
+        if ( Math.trunc((currNumb + 1) / 10) === 0 ){
+            idCurr.textContent = `0${currNumb + 1}`;
+        } else {
+            idCurr.textContent = `${currNumb + 1}`;
+        }
+        sliders[currNumb].render();
+    };
+
+    const changeCurrent = function(e) {
+        if(e.target.classList.contains('offer__slider-next')){
+            if (curr < sliders.length - 1){
+                curr++;
+            } else {
+                curr = 0;
+            }
+        }
+        if (e.target.classList.contains('offer__slider-prev')){
+            if(curr > 1){
+                curr--;
+            } else {
+                curr = 3;
+            }
+        }
+        showCurrentSlide(curr);
+    };
+    
+
+   
+
+
 
 });
