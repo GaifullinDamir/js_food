@@ -255,33 +255,39 @@ window.addEventListener('DOMContentLoaded', () =>{
                 
                 form.insertAdjacentElement('afterend', statusMessage);
 
-                const request = new XMLHttpRequest();
-                request.open('POST', 'server.php');
-
-                request.setRequestHeader('Contetn-type', 'multipart/form-data');
+                //При помощи formData мы собираем все данные из нашей формы
                 const formData = new FormData(form);
 
+                //Трансформация FromData в JSON формат.
                 const object = {};
                 formData.forEach(function(value, key){
                     object[key] = value;
                 })
 
-                const json = JSON.stringify(object);
-
-                request.send(json);
-
-                request.addEventListener('load', () =>{
-                    if(request.status === 200) {
-                        console.log(request.response);
+                //Связь с сервером
+                //Отправляем данные, находящиеся в formData. Куда, каким образом и, что именно.
+                fetch('server1.php', {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(object)
+                }).
+                then(data => data.text()).
+                then(data => {
+                        console.log(data);
                         //Отображаем модальное окно с сообщениями
                         showThanksModal(message.success);
                         //Сброс данных формы
                         form.reset();
                         //Удаляем спиннер со страницы
                         statusMessage.remove();
-                    } else {
-                        showThanksModal(message.failure);
-                    }
+                }).
+                catch(() => {
+                    showThanksModal(message.failure);
+                }).
+                finally(() => {
+                    form.reset();
                 })
             })
         }
