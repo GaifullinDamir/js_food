@@ -394,7 +394,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             }
         }
         if (e.target.classList.contains('offer__slider-prev')){
-            if(curr > 1){
+            if(curr >= 1){
                 curr--;
             } else {
                 curr = 3;
