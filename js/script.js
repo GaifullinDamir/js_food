@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         tabs.forEach(item => {
             item.classList.remove('tabheader__item_active');
         })
-    }
+    } 
 
     function showTabContent(i = 0){
         tabsContent[i].classList.add('show', 'fade');
