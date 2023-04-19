@@ -403,7 +403,20 @@ window.addEventListener('DOMContentLoaded', () =>{
         showCurrentSlide(curr);
     };
     
-
+   //Калькулятор
+    const result = document.querySelector('.claculating__result span');
+    let sex, height, weight, age, ratio;
+   
+    function calcTotal(){
+        if(!sex || !height || !weight || !age || !ratio){
+            result.textContent = '_____';
+            return;
+        }
+        
+        if (sex === 'female') {
+            result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+        }
+    }//8^45
    
 
 
