@@ -404,9 +404,17 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
     
    //Калькулятор
-    const result = document.querySelector('.claculating__result span');
-    let sex, height, weight, age, ratio;
+    const result = document.querySelector('.calculating__result span');
+
+    //Добавили дефолтные значения, дабы сразу отображался какой-то результат.
+    let sex = 'female',
+        height,
+        weight, 
+        age, 
+        ratio = 1.375;
    
+    //Функция для расчет калорий
+    //calcTotal должен вызываться каждый раз, когда пользователь хоть как-то изменял данные
     function calcTotal(){
         if(!sex || !height || !weight || !age || !ratio){
             result.textContent = '_____';
@@ -414,11 +422,72 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
         
         if (sex === 'female') {
-            result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+            result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+        } else {
+            result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
         }
-    }//8^45
-   
+    }
 
+    calcTotal();
+
+    //Получаем информацию со статических блоков
+    //parentSelector, поскольку будем применять функцию на нескольких элементах
+    //activeClass, поскольку будем менять класс активности
+    function getStaticInformation(parentSelector, activeClass){
+        const elements = document.querySelectorAll(`${parentSelector} div`); //получаем все div внутри этого родителя.
+
+        elements.forEach(elem => {
+            elem.addEventListener('click', (e) =>{
+                //Если клиент кликнул на активность, то мы взяли и вытащили ту активность, которая стоит у него в атрибуте
+                //Не используем делегирование событий, чтобы избежать багов с подложкой
+                if (e.target.getAttribute('data-ratio')){
+                    ratio = +e.target.getAttribute('data-ratio');
+                } else { // Если нет атрибута data-ratio, значит работаем с полом.
+                    sex = e.target.getAttribute('id');
+                }
+    
+                //Убираем класс активности у всех элементов
+                elements.forEach(elem => {
+                    elem.classList.remove(activeClass);
+                });
+                //Добавляем класс активности требуемому элементу
+                e.target.classList.add(activeClass);
+                calcTotal();
+            });
+        });
+
+        //Если поулчаем пол, то обращаем по уникальному идентификатору
+        //Если с физической активностью, то работаем с атрибутом data-ratio
+    }
+   
+    getStaticInformation('#gender', 'calculating__choose-item_active');
+
+    getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+
+    //Функция, обрабатывающая каждый отдельный input()
+
+    function getDynamicInformation(selector){
+        const input = document.querySelector(selector);
+
+        input.addEventListener('input', e =>{
+            switch(input.getAttribute('id')) {
+                case 'height':
+                    height = +input.value;
+                    break;
+                case 'weight':
+                    weight = +input.value;
+                    break;
+                case 'age':
+                    age = +input.value;
+                    break;
+            }
+            calcTotal();
+        });
+    }
+
+    getDynamicInformation('#height');
+    getDynamicInformation('#weight');
+    getDynamicInformation('#age');
 
 
 });
