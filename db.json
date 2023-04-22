@@ -26,22 +26,22 @@
     {
       "img": "img/slider/pepper.jpg",
       "alt": "pepper",
-      "id" : 1
+      "id": 1
     },
     {
       "img": "img/slider/food-12.jpg",
       "alt": "food",
-      "id" : 2
+      "id": 2
     },
     {
       "img": "img/slider/olive-oil.jpg",
       "alt": "oil",
-      "id" : 3
+      "id": 3
     },
     {
       "img": "img/slider/paprika.jpg",
       "alt": "paprika",
-      "id" : 4
+      "id": 4
     }
   ],
   "requests": [
@@ -54,6 +54,36 @@
       "name": "Дамир",
       "phone": "89374843985",
       "id": 2
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 3
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 4
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 5
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 6
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 7
+    },
+    {
+      "name": "Дамир",
+      "phone": "89374843985",
+      "id": 8
     }
   ]
 }
